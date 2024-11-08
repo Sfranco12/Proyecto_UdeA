@@ -18,4 +18,4 @@ El notebook incluye varios pasos para la carga, análisis y visualización de da
 Para ejecutar este notebook, asegúrate de tener instaladas las siguientes bibliotecas:
 
 ```bash
-pip install pandas numpy scikit-learn matplotlib seaborn
+pip install pandas numpy scikit-learn matplotlib seaborn math warnings

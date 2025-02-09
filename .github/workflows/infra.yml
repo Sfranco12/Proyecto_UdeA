@@ -1,0 +1,34 @@
+name: Deploy CloudFormation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'infra.yaml'  # Se ejecuta solo si este archivo cambia
+  workflow_dispatch:  # Permite ejecución manual
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # Poner keys
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # Poner keys
+          aws-region: us-east-1  # Cambia según la región deseada
+
+      - name: Validate CloudFormation template
+        run: aws cloudformation validate-template --template-body file://infra.yaml
+
+      - name: Deploy CloudFormation Stack
+        run: | # Cambiar nombre del stacj y capabilities para roles de iam
+          aws cloudformation deploy \
+            --template-file infra.yaml \
+            --stack-name MiStack \ 
+            --capabilities CAPABILITY_NAMED_IAM

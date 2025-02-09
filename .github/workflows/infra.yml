@@ -1,4 +1,4 @@
-name: Deploy CloudFormation
+name: Deploy CloudFormation AWS
 
 on:
   push:
@@ -9,13 +9,16 @@ on:
   workflow_dispatch:  # Permite ejecución manual
 
 jobs:
-  deploy:
+  Checkout_repository:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        
+  Checkout_credencials:
+    runs-on: ubuntu-latest
+    steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -23,11 +26,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # Poner keys
           aws-region: us-east-1  # Cambia según la región deseada
 
+  Validate_Template_AWS:
+    runs-on: ubuntu-latest
+    steps:
       - name: Validate CloudFormation template
         run: aws cloudformation validate-template --template-body file://infra.yaml
 
+  Deploy_AWS:
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy CloudFormation Stack
-        run: | # Cambiar nombre del stacj y capabilities para roles de iam
+        run: | # Cambiar nombre del stack y capabilities para roles de iam
           aws cloudformation deploy \
             --template-file infra.yaml \
             --stack-name MiStack \ 

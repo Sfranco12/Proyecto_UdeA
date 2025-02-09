@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'infra.yaml'  # Se ejecuta solo si este archivo cambia
+      - 'aws.yaml'  # Se ejecuta solo si este archivo cambia
   workflow_dispatch:  # Permite ejecución manual
 
 jobs:

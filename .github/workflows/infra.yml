@@ -29,6 +29,6 @@ jobs:
       - name: Deploy CloudFormation Stack
         run: | # Cambiar nombre del stacj y capabilities para roles de iam
           aws cloudformation deploy \
-            --template-file infra.yaml \
+            --template-file aws.yam \
             --stack-name MiStack \ 
             --capabilities CAPABILITY_NAMED_IAM
